@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dw4te76iyc3tt"]
+
+[ext_resource type="Texture2D" uid="uid://275fay8bushk" path="res://assets/images/gameplay/logs.png" id="1_gp6bw"]
+
+[node name="logs" type="Sprite2D"]
+position = Vector2(960, 512)
+texture = ExtResource("1_gp6bw")

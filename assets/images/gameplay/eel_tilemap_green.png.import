@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ndx5i3f7dkra"
-path="res://.godot/imported/tileMapOrange.png-7c4a7aab25ae042d8f9c2aa3a539041f.ctex"
+uid="uid://blekh0qsqrdvk"
+path="res://.godot/imported/eel_tilemap_green.png-7ecc135b972aabfee7559009bb56e1b0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/tileMapOrange.png"
-dest_files=["res://.godot/imported/tileMapOrange.png-7c4a7aab25ae042d8f9c2aa3a539041f.ctex"]
+source_file="res://assets/images/gameplay/eel_tilemap_green.png"
+dest_files=["res://.godot/imported/eel_tilemap_green.png-7ecc135b972aabfee7559009bb56e1b0.ctex"]
 
 [params]
 
