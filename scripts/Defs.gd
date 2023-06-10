@@ -1,0 +1,1 @@
+enum EelColor { EelRed, EelOrange, EelGreen }

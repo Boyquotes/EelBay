@@ -1,35 +1,38 @@
 class_name GameStateTest
 
+const Eel = preload("res://scripts/Eel.gd")
+const Defs = preload("res://scripts/Defs.gd")
+
 static func find_eel_blocks__test() -> bool:
-    var eel_red_00 = GameStateDirector.mk_eel(
+    var eel_red_00 = Eel.new(
         Vector2i(0,0),
-        GameStateDirector.EelColor.EelRed 
+        Defs.EelColor.EelRed 
     )
 
-    var eel_orange_01 = GameStateDirector.mk_eel(
+    var eel_orange_01 = Eel.new(
         Vector2i(0,1),
-        GameStateDirector.EelColor.EelOrange
+        Defs.EelColor.EelOrange
     )
 
-    var eel_orange_02 = GameStateDirector.mk_eel(
+    var eel_orange_02 = Eel.new(
         Vector2i(0,2),
-        GameStateDirector.EelColor.EelOrange
+        Defs.EelColor.EelOrange
     )
 
-    var eel_orange_10 = GameStateDirector.mk_eel(
+    var eel_orange_10 = Eel.new(
         Vector2i(1,0),
-        GameStateDirector.EelColor.EelOrange
+        Defs.EelColor.EelOrange
     )
 
-    var eel_green_11 = GameStateDirector.mk_eel(
+    var eel_green_11 = Eel.new(
         Vector2i(1,1),
-        GameStateDirector.EelColor.EelGreen
+        Defs.EelColor.EelGreen
     )
 
     # Test Grid
     # R O O
     # O G
-    var eels : Array[GameStateDirector.Eel] = [
+    var eels : Array[Eel] = [
         eel_red_00,
         eel_orange_01,
         eel_orange_02,
@@ -39,14 +42,14 @@ static func find_eel_blocks__test() -> bool:
 
     print("IN EELS:")
     for eel in eels:
-        print(GameStateDirector.eel_to_string(eel))
+        print(eel)
 
     print("OUT BLOCKS:")
-    var blocks = GameStateDirector.find_eel_blocks(eels)
+    var blocks = GameStateDir.find_eel_blocks(eels)
     for block in blocks:
         var out = ""
         for block_eel in block:
-            out += GameStateDirector.eel_to_string(block_eel) + " "
+            out += str(block_eel) + " "
         print(out)
 
     # TODO: Instead of printing details, compare equality of the produced block set and 
