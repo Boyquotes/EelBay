@@ -1,7 +1,6 @@
 class_name GameStateDir
 
 const Eel = preload("res://scripts/Eel.gd")
-const Defs = preload("res://scripts/Defs.gd")
 
 enum MoveDir { MoveE, MoveN, MoveW, MoveS }
 

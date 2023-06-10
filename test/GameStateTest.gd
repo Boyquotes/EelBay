@@ -1,32 +1,32 @@
 class_name GameStateTest
 
 const Eel = preload("res://scripts/Eel.gd")
-const Defs = preload("res://scripts/Defs.gd")
+const Def = preload("res://scripts/Def.gd")
 
 static func find_eel_blocks__test() -> bool:
     var eel_red_00 = Eel.new(
         Vector2i(0,0),
-        Defs.EelColor.EelRed 
+        Def.EelColor.EelRed 
     )
 
     var eel_orange_01 = Eel.new(
         Vector2i(0,1),
-        Defs.EelColor.EelOrange
+        Def.EelColor.EelOrange
     )
 
     var eel_orange_02 = Eel.new(
         Vector2i(0,2),
-        Defs.EelColor.EelOrange
+        Def.EelColor.EelOrange
     )
 
     var eel_orange_10 = Eel.new(
         Vector2i(1,0),
-        Defs.EelColor.EelOrange
+        Def.EelColor.EelOrange
     )
 
     var eel_green_11 = Eel.new(
         Vector2i(1,1),
-        Defs.EelColor.EelGreen
+        Def.EelColor.EelGreen
     )
 
     # Test Grid

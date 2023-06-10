@@ -1,9 +1,9 @@
-const Defs = preload("res://scripts/Defs.gd")
+const Def = preload("res://scripts/Def.gd")
 
 var pos : Vector2i
-var color : Defs.EelColor
+var color : Def.EelColor
 
-func _init(p: Vector2i, c: Defs.EelColor):
+func _init(p: Vector2i, c: Def.EelColor):
     pos = p
     color = c
 
