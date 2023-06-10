@@ -54,5 +54,10 @@ static func find_eel_blocks(eels: Array[Eel]):
             # Insert new block
             new_eels.push_back(eel)
             output_blocks[new_block_id] = new_eels
-            
-    return output_blocks.values()
+
+    # create dictionary for output
+    var output_blocks_set = {}
+    for block in output_blocks.values():
+        output_blocks_set[block] = null
+
+    return output_blocks_set

@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b1jqt40itjeuk"]
+[gd_scene load_steps=4 format=3 uid="uid://b1jqt40itjeuk"]
 
 [ext_resource type="PackedScene" path="res://nodes/green_tile_map.tscn" id="1_0csv1"]
 [ext_resource type="PackedScene" uid="uid://dfrk6ytcxm7ak" path="res://nodes/ui.tscn" id="1_es5xg"]
 [ext_resource type="PackedScene" uid="uid://dw4te76iyc3tt" path="res://nodes/logs.tscn" id="3_8ie1a"]
-[ext_resource type="Script" path="res://test/TestRunner.gd" id="4_vssh7"]
 
 [node name="main" type="Node2D"]
 
@@ -13,6 +12,3 @@
 
 [node name="GreenTileMap" parent="." instance=ExtResource("1_0csv1")]
 layer_0/tile_data = PackedInt32Array(655371, 65536, 3, 589834, 720896, 3, 589833, 524288, 3, 524297, 524288, 1, 458761, 524288, 1, 393225, 524288, 0, 393226, 720896, 0, 458762, 720896, 2, 524298, 720896, 2, 196621, 524288, 0, 262157, 524288, 3, 262158, 589824, 3, 262159, 589824, 3, 262160, 720896, 3, 196624, 720896, 0, 196623, 655360, 0, 196622, 655360, 0, 720909, 524288, 0, 786445, 524288, 3, 786446, 589824, 3, 786447, 589824, 3, 786448, 720896, 3, 720912, 720896, 0, 720911, 655360, 0, 720910, 655360, 0, 393235, 524288, 0, 458771, 524288, 1, 524307, 524288, 1, 589843, 524288, 3, 589844, 720896, 3, 524308, 720896, 2, 458772, 720896, 2, 393236, 720896, 0, 327698, 196608, 3, 327691, 65536, 3, 655378, 196608, 3, 589838, 65536, 3, 589839, 196608, 3, 393230, 65536, 3, 393231, 196608, 3, 327692, 196608, 3, 327697, 65536, 3, 655377, 65536, 3, 655372, 196608, 3, 524300, 0, 2, 458764, 0, 0, 458769, 0, 0, 524305, 0, 2)
-
-[node name="TestRunner" type="Node2D" parent="."]
-script = ExtResource("4_vssh7")
