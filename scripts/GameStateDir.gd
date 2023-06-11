@@ -7,14 +7,11 @@ const GameState = preload("res://scripts/GameState.gd")
 
 signal game_state_changed(game_state : GameState)
 
-enum MoveDir { MoveE, MoveN, MoveW, MoveS }
+var global_game_state : GameState;
 
 func _ready():
-    var game_state : GameState = GameStateDir.create_init_game_state()
-
-    var new_game_state = GameStateDir.tick_game_state(MoveDir.MoveE, Vector2i(1,1), game_state)
-
-    game_state_changed.emit(new_game_state)
+    global_game_state = GameStateDir.create_init_game_state()
+    game_state_changed.emit(global_game_state)
     
 static func create_init_game_state():
     var eel_red_00 = Eel.new(
@@ -65,25 +62,25 @@ static func eel_array_to_dict(eels: Array[Eel]):
 static func neighboring_positions(pos : Vector2i) -> Array[Vector2i]:
     return [pos + Vector2i.RIGHT, pos + Vector2i.UP, pos + Vector2i.LEFT, pos + Vector2i.DOWN]
 
-static func move_dir_to_vec(move_dir : MoveDir) -> Vector2i:
+static func move_dir_to_vec(move_dir : Def.MoveDir) -> Vector2i:
     match move_dir:
-        MoveDir.MoveE:
+        Def.MoveDir.MoveE:
             return Vector2i.RIGHT
-        MoveDir.MoveN:
+        Def.MoveDir.MoveN:
             return Vector2i.UP
-        MoveDir.MoveW:
+        Def.MoveDir.MoveW:
             return Vector2i.LEFT
-        MoveDir.MoveS:
+        Def.MoveDir.MoveS:
             return Vector2i.DOWN
         
     return Vector2i.ZERO
 
 # Placeholder functionality for testing game state tick - just moves an single eel without checking collision
-static func tick_game_state(move_dir: MoveDir, start_pos: Vector2i, game_state : GameState) -> GameState:
+static func tick_game_state(move_dir: Def.MoveDir, start_pos: Vector2i, game_state : GameState) -> GameState:
     var new_pos : Vector2i = start_pos + move_dir_to_vec(move_dir)
 
     if game_state.eels.has(new_pos) or not game_state.eels.has(start_pos):
-        return
+        return game_state
 
     var new_game_state : GameState = game_state.copy()
 
@@ -142,3 +139,8 @@ static func find_eel_blocks(eels: Array[Eel]):
         output_blocks_set[block] = null
 
     return output_blocks_set
+
+
+func _on_move_triggered(move_dir, start_pos):
+    global_game_state = GameStateDir.tick_game_state(move_dir, start_pos, global_game_state)
+    game_state_changed.emit(global_game_state)
