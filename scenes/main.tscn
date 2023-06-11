@@ -2,23 +2,25 @@
 
 [ext_resource type="PackedScene" uid="uid://8ln21v0xi4do" path="res://nodes/green_tile_map.tscn" id="1_0csv1"]
 [ext_resource type="PackedScene" uid="uid://dfrk6ytcxm7ak" path="res://nodes/ui.tscn" id="1_es5xg"]
+[ext_resource type="Texture2D" uid="uid://8y0ey2feblvy" path="res://assets/images/gameplay/ocean.png" id="1_j6sj3"]
 [ext_resource type="PackedScene" uid="uid://dw4te76iyc3tt" path="res://nodes/logs.tscn" id="3_8ie1a"]
-[ext_resource type="Script" path="res://scripts/BoardView.gd" id="4_ibotr"]
 [ext_resource type="TileSet" uid="uid://m202sg14o2vw" path="res://nodes/tilesets/tile_set.tres" id="5_33wcr"]
 [ext_resource type="Script" path="res://scripts/GameStateDir.gd" id="5_ifc4c"]
 [ext_resource type="Script" path="res://scripts/BoardInputDir.gd" id="5_o36n0"]
 
 [node name="main" type="Node2D"]
 
-[node name="UI" parent="." instance=ExtResource("1_es5xg")]
+[node name="Ocean" type="Sprite2D" parent="."]
+position = Vector2(960, 512)
+scale = Vector2(2, 1.5)
+texture = ExtResource("1_j6sj3")
 
 [node name="logs" parent="." instance=ExtResource("3_8ie1a")]
+visible = false
 position = Vector2(896, 512)
 
 [node name="BoardView" parent="." instance=ExtResource("1_0csv1")]
 position = Vector2(704, 320)
-layer_0/tile_data = PackedInt32Array(131070, 524288, 0, 196606, 524288, 1, 262142, 524288, 1, 327678, 524288, 3, 131071, 720896, 0, 196607, 720896, 2, 262143, 720896, 2, 327679, 720896, 3, 0, 65536, 3, 327680, 65536, 3, 1, 196608, 3, 131073, 0, 0, 196609, 0, 2, 327681, 196608, 3, -131070, 524288, 0, -65534, 524288, 3, 393218, 524288, 0, 458754, 524288, 3, -131069, 655360, 0, -65533, 589824, 3, 65539, 65536, 3, 262147, 65536, 3, 393219, 655360, 0, 458755, 589824, 3, -131068, 655360, 0, -65532, 589824, 3, 65540, 196608, 3, 262148, 196608, 3, 393220, 655360, 0, 458756, 589824, 3, -131067, 720896, 0, -65531, 720896, 3, 393221, 720896, 0, 458757, 720896, 3, 6, 65536, 3, 131078, 0, 0, 196614, 0, 2, 327686, 65536, 3, 7, 196608, 3, 327687, 196608, 3, 65544, 524288, 0, 131080, 524288, 1, 196616, 524288, 1, 262152, 524288, 3, 65545, 720896, 0, 131081, 720896, 2, 196617, 720896, 2, 262153, 720896, 3)
-script = ExtResource("4_ibotr")
 
 [node name="BoardInputDir" type="TileMap" parent="."]
 position = Vector2(704, 320)
@@ -29,6 +31,8 @@ script = ExtResource("5_o36n0")
 [node name="GameStateDir" type="Node2D" parent="."]
 position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("5_ifc4c")
+
+[node name="UI" parent="." instance=ExtResource("1_es5xg")]
 
 [connection signal="move_triggered" from="BoardInputDir" to="GameStateDir" method="_on_move_triggered"]
 [connection signal="game_state_changed" from="GameStateDir" to="BoardView" method="_on_game_state_dir_game_state_changed"]

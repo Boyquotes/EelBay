@@ -4,6 +4,7 @@ extends Node
 const Def = preload("res://scripts/Def.gd")
 const Eel = preload("res://scripts/Eel.gd")
 const GameState = preload("res://scripts/GameState.gd")
+const GridUtil = preload("res://scripts/GridUtil.gd")
 
 signal game_state_changed(game_state : GameState)
 
@@ -11,6 +12,10 @@ var global_game_state : GameState;
 
 func _ready():
     global_game_state = GameStateDir.create_init_game_state()
+    game_state_changed.emit(global_game_state)
+
+func _on_move_triggered(move_dir, start_pos):
+    global_game_state = GameStateDir.tick_game_state(move_dir, start_pos, global_game_state)
     game_state_changed.emit(global_game_state)
     
 static func create_init_game_state():
@@ -59,27 +64,12 @@ static func eel_array_to_dict(eels: Array[Eel]):
 
     return eels_dict       
 
-static func neighboring_positions(pos : Vector2i) -> Array[Vector2i]:
-    return [pos + Vector2i.RIGHT, pos + Vector2i.UP, pos + Vector2i.LEFT, pos + Vector2i.DOWN]
-
-static func move_dir_to_vec(move_dir : Def.MoveDir) -> Vector2i:
-    match move_dir:
-        Def.MoveDir.MoveE:
-            return Vector2i.RIGHT
-        Def.MoveDir.MoveN:
-            return Vector2i.UP
-        Def.MoveDir.MoveW:
-            return Vector2i.LEFT
-        Def.MoveDir.MoveS:
-            return Vector2i.DOWN
-        
-    return Vector2i.ZERO
 
 # Placeholder functionality for testing game state tick - just moves an single eel without checking collision
 static func tick_game_state(move_dir: Def.MoveDir, start_pos: Vector2i, game_state : GameState) -> GameState:
-    var new_pos : Vector2i = start_pos + move_dir_to_vec(move_dir)
+    var new_pos : Vector2i = start_pos + GridUtil.move_dir_to_vec(move_dir)
 
-    if game_state.eels.has(new_pos) or not game_state.eels.has(start_pos):
+    if game_state.eels.has(new_pos) or not game_state.eels.has(start_pos) or not GridUtil.in_bounds(new_pos):
         return game_state
 
     var new_game_state : GameState = game_state.copy()
@@ -100,7 +90,7 @@ static func find_eel_blocks(eels: Array[Eel]):
     for eel in eels:
         # Search for adjacent blocks of the same color
         var adjacent_block_ids = {}
-        for adjacent_pos in neighboring_positions(eel.pos):
+        for adjacent_pos in GridUtil.neighboring_positions(eel.pos):
             var maybe_block_id = block_map.get(adjacent_pos)
             #print(maybe_block_id)
             if maybe_block_id != null:
@@ -139,8 +129,3 @@ static func find_eel_blocks(eels: Array[Eel]):
         output_blocks_set[block] = null
 
     return output_blocks_set
-
-
-func _on_move_triggered(move_dir, start_pos):
-    global_game_state = GameStateDir.tick_game_state(move_dir, start_pos, global_game_state)
-    game_state_changed.emit(global_game_state)
