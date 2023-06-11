@@ -1,16 +1,97 @@
 class_name GameStateDir
+extends Node
 
+const Def = preload("res://scripts/Def.gd")
 const Eel = preload("res://scripts/Eel.gd")
+const GameState = preload("res://scripts/GameState.gd")
+
+signal game_state_changed(game_state : GameState)
 
 enum MoveDir { MoveE, MoveN, MoveW, MoveS }
 
-class GameState:
-    # Invariant: The pos value of the eels must match their position keys 
-    var eels : Dictionary # Vector2i -> Eel
+func _ready():
+    var game_state : GameState = GameStateDir.create_init_game_state()
+
+    var new_game_state = GameStateDir.tick_game_state(MoveDir.MoveE, Vector2i(1,1), game_state)
+
+    game_state_changed.emit(new_game_state)
     
+static func create_init_game_state():
+    var eel_red_00 = Eel.new(
+        Vector2i(0,0),
+        Def.EelColor.EelRed 
+    )
+
+    var eel_orange_01 = Eel.new(
+        Vector2i(0,1),
+        Def.EelColor.EelOrange
+    )
+
+    var eel_orange_02 = Eel.new(
+        Vector2i(0,2),
+        Def.EelColor.EelOrange
+    )
+
+    var eel_orange_10 = Eel.new(
+        Vector2i(1,0),
+        Def.EelColor.EelOrange
+    )
+
+    var eel_green_11 = Eel.new(
+        Vector2i(1,1),
+        Def.EelColor.EelGreen
+    )
+
+    var eels : Array[Eel] = [
+        eel_red_00,
+        eel_orange_01,
+        eel_orange_02,
+        eel_orange_10,
+        eel_green_11
+    ]
+
+    var eels_dict = eel_array_to_dict(eels)
+    
+    return GameState.new(eels_dict)
+
+# Takes a list of eels and returns a dictionary where key is pos and value is Eel
+static func eel_array_to_dict(eels: Array[Eel]):
+    var eels_dict = {}
+    for eel in eels:
+        eels_dict[eel.pos] = eel
+
+    return eels_dict       
+
 static func neighboring_positions(pos : Vector2i) -> Array[Vector2i]:
     return [pos + Vector2i.RIGHT, pos + Vector2i.UP, pos + Vector2i.LEFT, pos + Vector2i.DOWN]
+
+static func move_dir_to_vec(move_dir : MoveDir) -> Vector2i:
+    match move_dir:
+        MoveDir.MoveE:
+            return Vector2i.RIGHT
+        MoveDir.MoveN:
+            return Vector2i.UP
+        MoveDir.MoveW:
+            return Vector2i.LEFT
+        MoveDir.MoveS:
+            return Vector2i.DOWN
         
+    return Vector2i.ZERO
+
+# Placeholder functionality for testing game state tick - just moves an single eel without checking collision
+static func tick_game_state(move_dir: MoveDir, start_pos: Vector2i, game_state : GameState) -> GameState:
+    var new_pos : Vector2i = start_pos + move_dir_to_vec(move_dir)
+
+    if game_state.eels.has(new_pos) or not game_state.eels.has(start_pos):
+        return
+
+    var new_game_state : GameState = game_state.copy()
+
+    new_game_state.eels[new_pos] = new_game_state.eels[start_pos] 
+    new_game_state.eels.erase(start_pos)
+
+    return new_game_state
+
 # Invariant: The returned Array[Eel] is always non-empty.
 # TODO: Incomplete, untested
 # Returns: Array[Array[Eel]] An array of eel blocks
