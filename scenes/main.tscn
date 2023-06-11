@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://b1jqt40itjeuk"]
+[gd_scene load_steps=9 format=3 uid="uid://b1jqt40itjeuk"]
 
 [ext_resource type="PackedScene" uid="uid://8ln21v0xi4do" path="res://nodes/green_tile_map.tscn" id="1_0csv1"]
 [ext_resource type="PackedScene" uid="uid://dfrk6ytcxm7ak" path="res://nodes/ui.tscn" id="1_es5xg"]
+[ext_resource type="Texture2D" uid="uid://8y0ey2feblvy" path="res://assets/images/gameplay/ocean.png" id="1_j6sj3"]
 [ext_resource type="PackedScene" uid="uid://dw4te76iyc3tt" path="res://nodes/logs.tscn" id="3_8ie1a"]
 [ext_resource type="Script" path="res://scripts/BoardView.gd" id="4_ibotr"]
 [ext_resource type="TileSet" uid="uid://m202sg14o2vw" path="res://nodes/tilesets/tile_set.tres" id="5_33wcr"]
@@ -10,9 +11,13 @@
 
 [node name="main" type="Node2D"]
 
-[node name="UI" parent="." instance=ExtResource("1_es5xg")]
+[node name="Ocean" type="Sprite2D" parent="."]
+position = Vector2(960, 512)
+scale = Vector2(2, 1.5)
+texture = ExtResource("1_j6sj3")
 
 [node name="logs" parent="." instance=ExtResource("3_8ie1a")]
+visible = false
 position = Vector2(896, 512)
 
 [node name="BoardView" parent="." instance=ExtResource("1_0csv1")]
@@ -29,6 +34,8 @@ script = ExtResource("5_o36n0")
 [node name="GameStateDir" type="Node2D" parent="."]
 position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("5_ifc4c")
+
+[node name="UI" parent="." instance=ExtResource("1_es5xg")]
 
 [connection signal="move_triggered" from="BoardInputDir" to="GameStateDir" method="_on_move_triggered"]
 [connection signal="game_state_changed" from="GameStateDir" to="BoardView" method="_on_game_state_dir_game_state_changed"]
