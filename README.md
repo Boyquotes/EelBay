@@ -4,10 +4,10 @@
 
 - Spaces instead of tabs
 - Naming
-    - `SnakeCase` for classes.
+    - `PascalCase` for classes.
     - `CAPS` for enums.
-    - `_camel_case` for class variables.
-    - `camel_case` for everything else.
+    - `_snake_case` for class variables.
+    - `snake_case` for everything else.
 
 ### Dependencies
 
