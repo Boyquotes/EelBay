@@ -1,21 +1,30 @@
 class_name GameStateDir
 extends Node
 
+const BoardInputDir = preload("res://scripts/BoardInputDir.gd")
 const Def = preload("res://scripts/Def.gd")
 const Eel = preload("res://scripts/Eel.gd")
 const GameState = preload("res://scripts/GameState.gd")
+const InputData = preload("res://scripts/InputData.gd")
 const GridUtil = preload("res://scripts/GridUtil.gd")
+
+class EelUpdateData:
+    var _new_eel_pos : Vector2i
+
+    func _init(new_eel_pos : Vector2i):
+        _new_eel_pos = new_eel_pos
 
 class GameStateUpdateData:
     var _new_game_state : GameState
-    var _new_eel_pos : Vector2i
+    var _eel_update_data : EelUpdateData
 
-    func _init(new_game_state : GameState, new_eel_pos : Vector2i):
+    func _init(new_game_state : GameState, eel_update_data : EelUpdateData):
         _new_game_state = new_game_state
-        _new_eel_pos = new_eel_pos
+        _eel_update_data = eel_update_data
 
 signal game_state_changed(game_state : GameState)
 
+@export var _input_dir : BoardInputDir
 var _global_game_state : GameState = null
 
 func set_game_state(value : GameState):
@@ -26,11 +35,17 @@ func _ready():
     var new_game_state : GameState = GameStateDir.create_init_game_state()
     set_game_state(new_game_state)
 
+# PROCESS PRIORITY = 1
+func _process(delta):
+    var input_data = _input_dir.get_input()
+    var update_data = update_game_state(input_data)
+    _input_dir.recieve_update_data(update_data)
+
 # Updates game state and returns the new position of eel
-func update_game_state(move_dir : Def.MoveDir, start_pos : Vector2i) -> Vector2i:
-    var update_data : GameStateUpdateData = GameStateDir.tick_game_state(move_dir, start_pos, _global_game_state)
+func update_game_state(input_data : InputData) -> GameStateUpdateData:
+    var update_data : GameStateUpdateData = GameStateDir.tick_game_state(input_data, _global_game_state)
     set_game_state(update_data._new_game_state)
-    return update_data._new_eel_pos
+    return update_data
     
 static func create_init_game_state():
     var rng = RandomNumberGenerator.new()
@@ -43,19 +58,28 @@ static func create_init_game_state():
     return GameState.new(eels)
 
 # Placeholder functionality for testing game state tick - just moves an single eel without checking collision
-# Returns [new_game_state, new_position_of_moved_eel]
-static func tick_game_state(move_dir: Def.MoveDir, start_pos: Vector2i, game_state : GameState) -> GameStateUpdateData:
+static func tick_game_state(input_data : InputData, game_state : GameState) -> GameStateUpdateData:
+    # Use this value if you need tick in logic below
+    var tick = game_state._tick
+    game_state._tick += 1
+
+    if input_data == null:
+        return GameStateUpdateData.new(game_state, null)
+
+    var start_pos = input_data._start_pos
+    var move_dir = input_data._move_dir
+
     var new_pos : Vector2i = start_pos + GridUtil.move_dir_to_vec(move_dir)
 
     if game_state.eels.has(new_pos) or not game_state.eels.has(start_pos) or not GridUtil.in_bounds(new_pos):
-        return GameStateUpdateData.new(game_state, start_pos)
+        return GameStateUpdateData.new(game_state, EelUpdateData.new(start_pos))
 
     var new_game_state : GameState = game_state.copy()
 
     new_game_state.eels[new_pos] = new_game_state.eels[start_pos] 
     new_game_state.eels.erase(start_pos)
 
-    return GameStateUpdateData.new(new_game_state, new_pos)
+    return GameStateUpdateData.new(new_game_state, EelUpdateData.new(new_pos))
 
 # Invariant: The returned Array[Eel] is always non-empty.
 # TODO: Incomplete, untested

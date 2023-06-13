@@ -21,13 +21,14 @@ position = Vector2(896, 512)
 [node name="BoardView" parent="." instance=ExtResource("1_0csv1")]
 position = Vector2(704, 320)
 
-[node name="BoardInputDir" parent="." node_paths=PackedStringArray("_game_state_dir") instance=ExtResource("4_qwhym")]
+[node name="BoardInputDir" parent="." instance=ExtResource("4_qwhym")]
+process_priority = 1
 layer_0/tile_data = PackedInt32Array()
-_game_state_dir = NodePath("../GameStateDir")
 
-[node name="GameStateDir" type="Node2D" parent="."]
+[node name="GameStateDir" type="Node2D" parent="." node_paths=PackedStringArray("_input_dir")]
 position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("5_ifc4c")
+_input_dir = NodePath("../BoardInputDir")
 
 [node name="UI" parent="." instance=ExtResource("1_es5xg")]
 
