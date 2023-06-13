@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://b1jqt40itjeuk"]
+[gd_scene load_steps=7 format=3 uid="uid://bkf15b7japp8p"]
 
-[ext_resource type="PackedScene" uid="uid://8ln21v0xi4do" path="res://nodes/green_tile_map.tscn" id="1_0csv1"]
+[ext_resource type="PackedScene" uid="uid://8ln21v0xi4do" path="res://nodes/board_view.tscn" id="1_0csv1"]
 [ext_resource type="PackedScene" uid="uid://dfrk6ytcxm7ak" path="res://nodes/ui.tscn" id="1_es5xg"]
 [ext_resource type="Texture2D" uid="uid://8y0ey2feblvy" path="res://assets/images/gameplay/ocean.png" id="1_j6sj3"]
 [ext_resource type="PackedScene" uid="uid://dw4te76iyc3tt" path="res://nodes/logs.tscn" id="3_8ie1a"]
-[ext_resource type="TileSet" uid="uid://m202sg14o2vw" path="res://nodes/tilesets/tile_set.tres" id="5_33wcr"]
+[ext_resource type="PackedScene" uid="uid://bupt0on771l70" path="res://nodes/board_input_dir.tscn" id="4_qwhym"]
 [ext_resource type="Script" path="res://scripts/GameStateDir.gd" id="5_ifc4c"]
-[ext_resource type="Script" path="res://scripts/BoardInputDir.gd" id="5_o36n0"]
 
 [node name="main" type="Node2D"]
 
@@ -22,11 +21,9 @@ position = Vector2(896, 512)
 [node name="BoardView" parent="." instance=ExtResource("1_0csv1")]
 position = Vector2(704, 320)
 
-[node name="BoardInputDir" type="TileMap" parent="."]
-position = Vector2(704, 320)
-tile_set = ExtResource("5_33wcr")
-format = 2
-script = ExtResource("5_o36n0")
+[node name="BoardInputDir" parent="." node_paths=PackedStringArray("_game_state_dir") instance=ExtResource("4_qwhym")]
+layer_0/tile_data = PackedInt32Array()
+_game_state_dir = NodePath("../GameStateDir")
 
 [node name="GameStateDir" type="Node2D" parent="."]
 position = Vector2(2.08165e-12, 2.08165e-12)

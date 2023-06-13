@@ -6,6 +6,7 @@
 - Naming
     - `SnakeCase` for classes.
     - `CAPS` for enums.
+    - `_camel_case` for class variables.
     - `camel_case` for everything else.
 
 ### Dependencies

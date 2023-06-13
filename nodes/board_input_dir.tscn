@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bupt0on771l70"]
+
+[ext_resource type="TileSet" uid="uid://cvh7ynbcujhhj" path="res://nodes/tilesets/selector_tileset.tres" id="1_aurcx"]
+[ext_resource type="Script" path="res://scripts/BoardInputDir.gd" id="2_i8v58"]
+
+[node name="BoardInputDir" type="TileMap"]
+position = Vector2(704, 320)
+tile_set = ExtResource("1_aurcx")
+format = 2
+layer_0/tile_data = PackedInt32Array(1, 0, 0, 65537, 0, 2, 6, 65536, 3, 7, 196608, 3, 131076, 196608, 3, 131075, 65536, 3, 262149, 0, 3, 196614, 0, 2, 131078, 131072, 3, 131079, 196608, 3, 327680, 0, 2, 262145, 196608, 3, 262144, 524288, 0)
+script = ExtResource("2_i8v58")

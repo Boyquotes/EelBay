@@ -34,7 +34,7 @@ func filter_eels_by_color(color : Def.EelColor, eels : Dictionary):
     var color_eels = {}
 
     for pos in eels:
-        if eels[pos].color == color:
+        if eels[pos]._color == color:
             color_eels[pos] = eels[pos]
 
     return color_eels
